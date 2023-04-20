@@ -16,10 +16,10 @@ function App() {
         <Route path="/" element={<Navbar></Navbar>}>
           <Route index element={<Login></Login>}></Route>
           <Route path="about-us" element={<About></About>}></Route>
-          <Route path="signup" element={<Signup></Signup>}></Route>
-          <Route path="/" element={<VerifiedProtected></VerifiedProtected>}>
+            <Route path="signup" element={<Signup></Signup>}></Route>
+          <Route path="/" element={<Protected></Protected>}>
             <Route path="verify-email" element={<VerifyEmail></VerifyEmail>}></Route>
-            <Route path="/" element={<Protected></Protected>}>
+            <Route path="/" element={<VerifiedProtected></VerifiedProtected>}>
               <Route path="profile" element={<Profile></Profile>}></Route>
               <Route path="booking" element={<Booking></Booking>}></Route>
             </Route>

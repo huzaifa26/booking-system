@@ -6,6 +6,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../Utils/firebase';
 import { toast } from 'react-toastify';
 import { sendEmailVerification } from "firebase/auth";
+import ForgotPassword from '../components/Login/ForgotPassword';
 
 export default function Login() {
 
@@ -32,6 +33,7 @@ export default function Login() {
           .then(() => {
             navigate("/verify-email")
           }).catch((err) => {
+            console.log(err);
             toast.error("Error sending verification mail");
           })
       }
@@ -60,15 +62,19 @@ export default function Login() {
   }
 
   return (
-    <form onSubmit={loginFormHandler} ref={formRef} className='py-8 flex flex-col gap-4 w-[25%] m-auto text-[#595659]'>
-      <input className='border-[1px] h-8 p-2 rounded-sm' placeholder='Email' name='email' />
-      <input className='border-[1px] h-8 p-2 rounded-sm' placeholder='Password' name='password' />
-      {!loginMutation.isLoading &&
-        <button type='submit' className='w-24 h-8 mt-2 rounded-md m-auto bg-cyan-600 text-lg text-white'>Submit</button>
-      }
-      {loginMutation.isLoading &&
-        <button type='button' disabled className='w-24 h-8 mt-2 rounded-md m-auto bg-cyan-600 text-xl text-white'><img className='w-[20px] m-auto' src='/WhiteLoading.svg' /></button>
-      }
-    </form>
+    <>
+      <ForgotPassword/>
+      <form onSubmit={loginFormHandler} ref={formRef} className='py-8 flex flex-col gap-4 w-[25%] m-auto text-[#595659]'>
+        <input className='border-[1px] h-8 p-2 rounded-sm' placeholder='Email' name='email' />
+        <input className='border-[1px] h-8 p-2 rounded-sm' placeholder='Password' name='password' />
+        <p className='text-[12px] text-right text-[#15c] cursor-pointer'>Forgot password?</p>
+        {!loginMutation.isLoading &&
+          <button type='submit' className='w-24 h-8 mt-2 rounded-md m-auto bg-cyan-600 text-lg text-white'>Submit</button>
+        }
+        {loginMutation.isLoading &&
+          <button type='button' disabled className='w-24 h-8 mt-2 rounded-md m-auto bg-cyan-600 text-xl text-white'><img className='w-[20px] m-auto' src='/WhiteLoading.svg' /></button>
+        }
+      </form>
+    </>
   )
 }

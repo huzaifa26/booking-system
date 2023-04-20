@@ -12,10 +12,6 @@ export default function VerifyEmail() {
   const queryCLient = useQueryClient()
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")))
 
-  if (user && user.isVerified === true) {
-    return navigate('/')
-  }
-
   const [time, setTime] = useState(60);
   useEffect(() => {
     setInterval(() => {

@@ -6,14 +6,14 @@ import { Outlet } from 'react-router-dom';
 export default function Protected() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const user = localStorage.getItem("user")
-
+  const user = JSON.parse(localStorage.getItem("user"))
+  console.log(user);
   useEffect(() => {
     console.log(user);
     if (user === null) {
       navigate('/');
     }
-    queryClient.setQueryData(["user"], JSON.parse(user))
+    queryClient.setQueryData(["user"], user)
   }, [queryClient])
 
   if (user === null) {

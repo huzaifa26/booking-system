@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { createUserWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
@@ -12,6 +12,8 @@ export default function Signup() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  useEffect(()=>{localStorage.clear()},[])
+
   const signupMutation = useMutation({
     mutationFn: async (data) => {
       return createUserWithEmailAndPassword(auth, data.email, data.password)
@@ -19,10 +21,16 @@ export default function Signup() {
           delete data.password;
           data.uid = userCredentials.user.uid
           await setDoc(doc(db, "users", userCredentials.user.uid), data);
+          localStorage.setItem("user", JSON.stringify(data));
+          queryClient.setQueryData(['user'], data);
           sendEmailVerification(auth.currentUser)
             .then(()=>{
+              toast.success("User created successfully");
               navigate("/verify-email")
             }).catch((err)=>{
+              if(err.code ==="auth/too-many-requests"){
+                toast.error("Too many requests");
+              }
               toast.error("Error sending verification mail");
             })
         })
@@ -31,7 +39,7 @@ export default function Signup() {
         })
     },
     onSuccess: () => {
-      toast.success("User created successfully");
+      // toast.success("User created successfully");
     },
     onError: () => {
       toast.error("Error creating user");

@@ -15,9 +15,6 @@ export default function VerifiedProtected() {
       if (user?.emailVerified === false) {
         navigate('/');
       }
-      if(user?.emailVerified === true && location.pathname === "/verify-email"){
-        navigate('/');
-      }
     });
     return () => {
       unsubscribe();
