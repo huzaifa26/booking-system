@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { auth } from '../../Utils/firebase';
 import { toast } from 'react-toastify';
 
-export default function ForgotPassword() {
+export default function ForgotPassword({hideModal}) {
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false)
 
@@ -19,8 +19,8 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className='absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.25)] backdrop-blur-[4px] flex justify-center items-center'>
-      <div className='w-[30%] h-44 bg-white rounded-md divide-y-2'>
+    <div onClick={()=>hideModal()} className='absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.25)] backdrop-blur-[4px] flex justify-center items-center'>
+      <div onClick={(e)=>e.stopPropagation()} className='w-[30%] h-44 bg-white rounded-md divide-y-2'>
         <h1 className='text-xl py-3 px-4'>Enter email to send password reset mail.</h1>
         <div className='flex flex-col px-4 pt-6'>
           <input onChange={(e) => setEmail(e.target.value)} className='border-[1px] h-8 p-2 rounded-sm' placeholder='Email' name='email' />

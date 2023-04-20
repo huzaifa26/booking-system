@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -9,6 +9,7 @@ import { sendEmailVerification } from "firebase/auth";
 import ForgotPassword from '../components/Login/ForgotPassword';
 
 export default function Login() {
+  const [showPasswordChangeModal, setPasswordChangeModal] = useState(false)
 
   const navigate = useNavigate();
   const formRef = useRef();
@@ -63,11 +64,13 @@ export default function Login() {
 
   return (
     <>
-      <ForgotPassword/>
+      {showPasswordChangeModal &&
+        <ForgotPassword hideModal={() => setPasswordChangeModal(false)} />
+      }
       <form onSubmit={loginFormHandler} ref={formRef} className='py-8 flex flex-col gap-4 w-[25%] m-auto text-[#595659]'>
         <input className='border-[1px] h-8 p-2 rounded-sm' placeholder='Email' name='email' />
         <input className='border-[1px] h-8 p-2 rounded-sm' placeholder='Password' name='password' />
-        <p className='text-[12px] text-right text-[#15c] cursor-pointer'>Forgot password?</p>
+        <p onClick={() => setPasswordChangeModal(true)} className='text-[12px] text-right text-[#15c] cursor-pointer'>Forgot password?</p>
         {!loginMutation.isLoading &&
           <button type='submit' className='w-24 h-8 mt-2 rounded-md m-auto bg-cyan-600 text-lg text-white'>Submit</button>
         }
